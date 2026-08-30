@@ -1,0 +1,15 @@
+Entidades identificadas
+
+Para dar solución al problema planteado, se identificaron las siguientes entidades:
+
+Usuario: representa a los clientes que se registran en la plataforma y realizan compras.
+
+Categoría: permite clasificar los productos (por ejemplo, gorras snapback, trucker, deportivas, etc.).
+
+Producto: representa cada gorra disponible en el catálogo, con su precio, descripción e inventario.
+
+Pedido: representa la compra que realiza un usuario dentro de la plataforma.
+
+Detalle de pedido: contiene la información de los productos que hacen parte de un pedido específico, incluyendo cantidad y precio unitario.
+
+Mensaje de contacto: almacena los mensajes que los visitantes envían a través del formulario de contacto de la página.
