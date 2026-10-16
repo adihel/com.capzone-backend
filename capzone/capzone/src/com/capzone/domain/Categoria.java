@@ -1,4 +1,4 @@
-package com.capzone;
+package com.capzone.domain;
 
 public class Categoria {
     private int idCategoria;
