@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e4af291b-81b6-4d18-a018-ebaded648318" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/capzone/capzone/src/com/capzone/repository/IMensajeContactoRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/capzone/capzone/src/com/capzone/repository/MensajeContactoRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/capzone/capzone/src/com/capzone/service/IMensajeContactoService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/capzone/capzone/src/com/capzone/service/MensajeContactoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capzone/capzone/src/com/capzone/domain/MensajeContacto.java" beforeDir="false" afterPath="$PROJECT_DIR$/capzone/capzone/src/com/capzone/domain/MensajeContacto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/capzone/capzone/src/com/capzone/userInterface/MenuUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/capzone/capzone/src/com/capzone/userInterface/MenuUI.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3KwOmoO41AyRdYscufbAiQ6gIo7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;developer&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10968.63" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10968.63" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e4af291b-81b6-4d18-a018-ebaded648318" name="Changes" comment="" />
+      <created>1792465346279</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1792465346279</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
