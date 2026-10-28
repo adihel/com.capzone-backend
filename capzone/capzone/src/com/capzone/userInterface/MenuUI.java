@@ -1,4 +1,4 @@
-package com.capzone.userinterface;
+package com.capzone.userInterface;
 
 import com.capzone.domain.DetallePedido;
 import com.capzone.domain.Pedido;
