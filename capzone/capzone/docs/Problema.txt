@@ -1,0 +1,6 @@
+CapZone es una tienda virtual dedicada a la venta de gorras exclusivas.
+
+
+Actualmente el negocio no cuenta con una plataforma digital que le permita gestionar sus operaciones básicas: no hay forma de registrar a los clientes, de mostrar el catálogo de productos organizado por categorías via online, de llevar el control del inventario disponible y actualizarlo al publico en tiempo real, ni de procesar y almacenar los pedidos que realizan los usuarios. Tampoco existe un canal donde los visitantes puedan dejar mensajes o consultas sobre productos a futuro o en existencia.
+
+Por esta razón, se plantea el desarrollo de un sistema que permita administrar toda la información de la tienda: usuarios, categorías de productos, pedidos, el detalle de cada pedido (Tiempos de entrega, metodo de transporte y disponibilidad en tiempo real) y los mensajes de contacto o sugerencias. De manera que la información quede almacenada correctamente y pueda ser consultada y actualizada desde la aplicación.
