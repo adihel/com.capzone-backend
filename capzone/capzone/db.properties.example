@@ -1,5 +1,4 @@
-# Copia este archivo como "db.properties" (en la raíz del proyecto) y escribe tu contraseña.
-# db.properties está en .gitignore: NO se sube a GitHub.
+# Copia este archivo como db.properties y escribe tu contraseña.
 db.url=jdbc:sqlserver://localhost:1433;databaseName=capzone_db;encrypt=true;trustServerCertificate=true
 db.user=sa
-db.password=TU_CONTRASEÑA_AQUI
+db.password=CAMBIAR_POR_CLAVE_DE_SQL_SERVER
