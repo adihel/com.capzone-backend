@@ -20,7 +20,7 @@ public class Main {
             System.out.println("✅ Conectado a la base de datos: " + con.getCatalog());
         } catch (SQLException e) {
             System.out.println("❌ No se pudo conectar a la base de datos: " + e.getMessage());
-            System.out.println("Revisa db.properties, que SQL Server esté encendido (TCP/IP, puerto 1433) y que hayas ejecutado database/capzone_db.sql");
+            System.out.println("Revisa db.properties, que el servicio MySQL esté encendido (puerto 3306) y que hayas ejecutado database/capzone_db_mysql.sql");
             return;
         }
 

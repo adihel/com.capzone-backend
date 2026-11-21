@@ -1,82 +1,69 @@
 -- =====================================================================
--- CapZone - Base de datos (SQL Server)
--- Ejecutar COMPLETO en SSMS (F5).
--- ADVERTENCIA: si capzone_db ya existe, se borra y se vuelve a crear.
+-- CapZone - Base de datos (MySQL 8)
+-- Ejecutar COMPLETO en MySQL Workbench (rayo amarillo o Ctrl+Shift+Enter).
 -- =====================================================================
-
-IF DB_ID('capzone_db') IS NOT NULL
-BEGIN
-    ALTER DATABASE capzone_db SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE capzone_db;
-END
-GO
-
-CREATE DATABASE capzone_db;
-GO
-
+DROP DATABASE IF EXISTS capzone_db;
+CREATE DATABASE capzone_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE capzone_db;
-GO
 
 -- ---------------------------------------------------------------------
 -- Tablas
 -- ---------------------------------------------------------------------
 CREATE TABLE usuarios (
-    id_usuario      INT PRIMARY KEY IDENTITY(1,1),
+    id_usuario      INT PRIMARY KEY AUTO_INCREMENT,
     nombre_completo VARCHAR(100) NOT NULL,
     correo          VARCHAR(50)  NOT NULL UNIQUE,
-    password        VARCHAR(255) NOT NULL,   
+    password        VARCHAR(255) NOT NULL,          -- hash SHA-256 (64 caracteres)
     telefono        VARCHAR(15)  NOT NULL,
-    fecha_registro  DATETIME DEFAULT GETDATE()
+    fecha_registro  DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-GO
 
 CREATE TABLE categorias (
-    id_categoria     INT PRIMARY KEY IDENTITY(1,1),
+    id_categoria     INT PRIMARY KEY AUTO_INCREMENT,
     nombre_categoria VARCHAR(50) NOT NULL UNIQUE,
     descripcion      VARCHAR(500) NULL
 );
-GO
 
 CREATE TABLE productos (
-    id_producto     INT PRIMARY KEY IDENTITY(1,1),
-    id_categoria    INT NOT NULL FOREIGN KEY REFERENCES categorias(id_categoria),
+    id_producto     INT PRIMARY KEY AUTO_INCREMENT,
+    id_categoria    INT NOT NULL,
     nombre_producto VARCHAR(100) NOT NULL,
     descripcion     VARCHAR(500) NULL,
     precio          DECIMAL(10,2) NOT NULL CHECK (precio >= 0),
     inventario      INT NOT NULL CHECK (inventario >= 0),
-    url_imagen      VARCHAR(255) NULL
+    url_imagen      VARCHAR(255) NULL,
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
 );
-GO
 
 CREATE TABLE pedidos (
-    id_pedido     INT PRIMARY KEY IDENTITY(1,1),
-    id_usuario    INT NOT NULL FOREIGN KEY REFERENCES usuarios(id_usuario),
-    fecha_pedido  DATETIME DEFAULT GETDATE(),
-    estado_pedido VARCHAR(20) NOT NULL DEFAULT 'Pendiente'
-        CONSTRAINT CK_pedidos_estado CHECK (estado_pedido IN ('Pendiente','Confirmado','Enviado','Entregado')),
-    total         DECIMAL(10,2) NOT NULL
+    id_pedido     INT PRIMARY KEY AUTO_INCREMENT,
+    id_usuario    INT NOT NULL,
+    fecha_pedido  DATETIME DEFAULT CURRENT_TIMESTAMP,
+    estado_pedido VARCHAR(20) NOT NULL DEFAULT 'Pendiente',
+    total         DECIMAL(10,2) NOT NULL,
+    CONSTRAINT ck_pedidos_estado CHECK (estado_pedido IN ('Pendiente','Confirmado','Enviado','Entregado')),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );
-GO
 
 CREATE TABLE detalle_pedidos (
-    id_detalle      INT PRIMARY KEY IDENTITY(1,1),
-    id_pedido       INT NOT NULL FOREIGN KEY REFERENCES pedidos(id_pedido),
-    id_producto     INT NOT NULL FOREIGN KEY REFERENCES productos(id_producto),
+    id_detalle      INT PRIMARY KEY AUTO_INCREMENT,
+    id_pedido       INT NOT NULL,
+    id_producto     INT NOT NULL,
     cantidad        INT NOT NULL CHECK (cantidad > 0),
-    precio_unitario DECIMAL(10,2) NOT NULL
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_pedido)   REFERENCES pedidos(id_pedido),
+    FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
 );
-GO
 
 CREATE TABLE mensajes_contacto (
-    id_contacto INT PRIMARY KEY IDENTITY(1,1),
+    id_contacto INT PRIMARY KEY AUTO_INCREMENT,
     nombre      VARCHAR(100) NOT NULL,
     correo      VARCHAR(50)  NOT NULL,
-    asunto      VARCHAR(100) NULL,                 -- nuevo: lo usa la clase MensajeContacto
+    asunto      VARCHAR(100) NULL,
     mensaje     VARCHAR(1000) NOT NULL,
-    fecha_envio DATETIME DEFAULT GETDATE(),
-    leido       BIT NOT NULL DEFAULT 0             -- nuevo: lo usa la clase MensajeContacto
+    fecha_envio DATETIME DEFAULT CURRENT_TIMESTAMP,
+    leido       BOOLEAN NOT NULL DEFAULT 0
 );
-GO
 
 -- ---------------------------------------------------------------------
 -- Datos de prueba
@@ -88,7 +75,6 @@ INSERT INTO categorias (nombre_categoria, descripcion) VALUES
 ('Dad Hat',  'Gorras de visera curva, desestructuradas, de estilo retro y cómodo.'),
 ('Trucker',  'Gorras con malla trasera transpirable, ideales para climas cálidos y estilo urbano.'),
 ('Beanie',   'Gorros de lana o materiales elásticos para protección en climas fríos.');
-GO
 
 INSERT INTO productos (id_categoria, nombre_producto, descripcion, precio, inventario, url_imagen) VALUES
 (1, 'Gorra Classic Snapback Black', 'Gorra negra de visera plana de alta densidad, 100% algodón.', 89900.00, 25, 'images/products/snapback-black.jpg'),
@@ -101,20 +87,17 @@ INSERT INTO productos (id_categoria, nombre_producto, descripcion, precio, inven
 (3, 'Gorra Trucker Outdoor Green', 'Diseño verde oliva con malla beige, parche de aventura.', 72000.00, 18, 'images/products/trucker-green.jpg'),
 (4, 'Gorro Beanie Winter Grey', 'Tejido de punto grueso color gris jaspeado, talla única.', 45000.00, 15, 'images/products/beanie-grey.jpg'),
 (4, 'Gorro Beanie Docker Mustard', 'Estilo corto por encima de la oreja en tono mostaza de tendencia.', 48000.00, 12, 'images/products/beanie-mustard.jpg');
-GO
 
 INSERT INTO usuarios (nombre_completo, correo, password, telefono) VALUES
 ('Juan Pérez Gómez',      'juan.perez@email.com',   '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '3157778899'),
 ('María Camila Restrepo', 'maria.camila@email.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '3004445566'),
 ('Carlos Mario Giraldo',  'carlos.mario@email.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '3102221100'),
 ('Sergio Castaño',        'sergio@capzone.com',     '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '3000000000');
-GO
 
 INSERT INTO pedidos (id_usuario, fecha_pedido, estado_pedido, total) VALUES
 (1, '2026-06-15 10:30:00', 'Confirmado', 254800.00),
 (2, '2026-06-20 16:45:00', 'Enviado',    140000.00),
 (1, '2026-06-25 09:15:00', 'Pendiente',   45000.00);
-GO
 
 INSERT INTO detalle_pedidos (id_pedido, id_producto, cantidad, precio_unitario) VALUES
 (1, 1, 2, 89900.00),
@@ -122,26 +105,24 @@ INSERT INTO detalle_pedidos (id_pedido, id_producto, cantidad, precio_unitario) 
 (2, 6, 1, 68000.00),
 (2, 8, 1, 72000.00),
 (3, 9, 1, 45000.00);
-GO
 
 INSERT INTO mensajes_contacto (nombre, correo, asunto, mensaje) VALUES
 ('Andrés Mendoza', 'andres.m@email.com', 'Compra al por mayor', 'Hola, me interesa comprar al por mayor de la gorra Trucker Dark All-Black.'),
 ('Diana Tobón',    'diana.t@email.com',  'Envíos',              '¿Hacen envíos a municipios fuera de Medellín?');
-GO
 
 -- ---------------------------------------------------------------------
 -- Procedimientos almacenados
 -- (La app Java registra los pedidos con su propia transacción para poder
 --  comprar varios productos a la vez; este SP queda como versión de 1 producto.)
 -- ---------------------------------------------------------------------
-CREATE PROCEDURE sp_ReporteComprasUsuario
-    @id_usuario   INT,
-    @fecha_inicio DATETIME,
-    @fecha_fin    DATETIME
-AS
-BEGIN
-    SET NOCOUNT ON;
+DELIMITER $$
 
+CREATE PROCEDURE sp_ReporteComprasUsuario(
+    IN p_id_usuario   INT,
+    IN p_fecha_inicio DATETIME,
+    IN p_fecha_fin    DATETIME
+)
+BEGIN
     SELECT
         u.nombre_completo,
         u.correo,
@@ -154,87 +135,68 @@ BEGIN
         (dp.cantidad * dp.precio_unitario) AS subtotal_linea,
         p.total AS total_pedido
     FROM usuarios u
-    INNER JOIN pedidos p          ON u.id_usuario  = p.id_usuario
-    INNER JOIN detalle_pedidos dp ON p.id_pedido   = dp.id_pedido
+    INNER JOIN pedidos p          ON u.id_usuario   = p.id_usuario
+    INNER JOIN detalle_pedidos dp ON p.id_pedido    = dp.id_pedido
     INNER JOIN productos pr       ON dp.id_producto = pr.id_producto
-    WHERE u.id_usuario = @id_usuario
-      AND p.fecha_pedido BETWEEN @fecha_inicio AND @fecha_fin
+    WHERE u.id_usuario = p_id_usuario
+      AND p.fecha_pedido BETWEEN p_fecha_inicio AND p_fecha_fin
     ORDER BY p.fecha_pedido;
-END
-GO
+END$$
 
-CREATE PROCEDURE sp_RegistrarPedidoCompleto
-    @id_usuario  INT,
-    @id_producto INT,
-    @cantidad    INT
-AS
+CREATE PROCEDURE sp_RegistrarPedidoCompleto(
+    IN p_id_usuario  INT,
+    IN p_id_producto INT,
+    IN p_cantidad    INT
+)
 BEGIN
-    SET NOCOUNT ON;
+    DECLARE v_precio   DECIMAL(10,2) DEFAULT NULL;
+    DECLARE v_stock    INT DEFAULT 0;
+    DECLARE v_id_pedido INT;
+    DECLARE v_total    DECIMAL(10,2);
 
-    BEGIN TRY
-        BEGIN TRANSACTION;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        RESIGNAL;
+    END;
 
-        DECLARE @precio DECIMAL(10,2);
-        DECLARE @stock_disponible INT;
-        DECLARE @nuevo_id_pedido INT;
-        DECLARE @total_calculado DECIMAL(10,2);
+    START TRANSACTION;
 
-        SELECT @precio = precio, @stock_disponible = inventario
-        FROM productos
-        WHERE id_producto = @id_producto;
+    SELECT precio, inventario INTO v_precio, v_stock
+    FROM productos
+    WHERE id_producto = p_id_producto
+    FOR UPDATE;
 
-        IF @precio IS NULL
-            RAISERROR('El producto no existe.', 16, 1);
+    IF v_precio IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El producto no existe.';
+    END IF;
 
-        IF @stock_disponible < @cantidad
-            RAISERROR('Inventario insuficiente para este producto.', 16, 1);
+    IF v_stock < p_cantidad THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Inventario insuficiente para este producto.';
+    END IF;
 
-        SET @total_calculado = @precio * @cantidad;
+    SET v_total = v_precio * p_cantidad;
 
-        INSERT INTO pedidos (id_usuario, estado_pedido, total)
-        VALUES (@id_usuario, 'Pendiente', @total_calculado);
+    INSERT INTO pedidos (id_usuario, estado_pedido, total)
+    VALUES (p_id_usuario, 'Pendiente', v_total);
 
-        SET @nuevo_id_pedido = SCOPE_IDENTITY();
+    SET v_id_pedido = LAST_INSERT_ID();
 
-        INSERT INTO detalle_pedidos (id_pedido, id_producto, cantidad, precio_unitario)
-        VALUES (@nuevo_id_pedido, @id_producto, @cantidad, @precio);
+    INSERT INTO detalle_pedidos (id_pedido, id_producto, cantidad, precio_unitario)
+    VALUES (v_id_pedido, p_id_producto, p_cantidad, v_precio);
 
-        UPDATE productos
-        SET inventario = inventario - @cantidad
-        WHERE id_producto = @id_producto;
+    UPDATE productos SET inventario = inventario - p_cantidad
+    WHERE id_producto = p_id_producto;
 
-        COMMIT TRANSACTION;
+    COMMIT;
 
-        SELECT @nuevo_id_pedido AS id_pedido_generado, @total_calculado AS total;
-    END TRY
-    BEGIN CATCH
-        IF @@TRANCOUNT > 0
-            ROLLBACK TRANSACTION;
+    SELECT v_id_pedido AS id_pedido_generado, v_total AS total;
+END$$
 
-        SELECT ERROR_MESSAGE() AS mensaje_error;
-    END CATCH
-END
-GO
+DELIMITER ;
 
 -- ---------------------------------------------------------------------
 -- Pruebas opcionales (quita los -- para ejecutarlas)
 -- ---------------------------------------------------------------------
- EXEC sp_ReporteComprasUsuario @id_usuario = 1, @fecha_inicio = '2026-06-01', @fecha_fin = '2026-06-30';
- EXEC sp_RegistrarPedidoCompleto @id_usuario = 2, @id_producto = 6, @cantidad = 3;
-
- --Ranking de clientes--
- SELECT u.nombre_completo, u.correo,
-        COUNT(p.id_pedido) AS cantidad_pedidos,
-        SUM(p.total)       AS total_comprado
- FROM usuarios u
- LEFT JOIN pedidos p ON u.id_usuario = p.id_usuario
- GROUP BY u.nombre_completo, u.correo
- ORDER BY total_comprado DESC;
-GO
-
-
-select productos.nombre_producto, categorias.nombre_categoria, productos.precio, productos.inventario
-from productos
-inner join categorias on productos.id_categoria = categorias.id_categoria
-where productos.inventario < 20
-go
+-- CALL sp_ReporteComprasUsuario(1, '2026-06-01', '2026-06-30');
+-- CALL sp_RegistrarPedidoCompleto(2, 6, 3);

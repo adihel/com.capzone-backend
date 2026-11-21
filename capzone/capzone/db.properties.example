@@ -1,4 +1,4 @@
 # Copia este archivo como db.properties y escribe tu contraseña.
-db.url=jdbc:sqlserver://localhost:1433;databaseName=capzone_db;encrypt=true;trustServerCertificate=true
-db.user=sa
-db.password=CAMBIAR_POR_CLAVE_DE_SQL_SERVER
+db.url=jdbc:mariadb://localhost:3306/capzone_db
+db.user=root
+db.password=
