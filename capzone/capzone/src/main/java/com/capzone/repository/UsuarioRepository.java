@@ -28,7 +28,7 @@ public class UsuarioRepository implements IUsuarioRepository {
             }
         } catch (SQLException e) {
             // 2627 / 2601 = violación de UNIQUE (correo repetido)
-            if (e.getErrorCode() == 2627 || e.getErrorCode() == 2601) {
+            if (e.getErrorCode() == 1062) {
                 throw new IllegalStateException("El correo ya está registrado en el sistema.");
             }
             throw new RuntimeException("Error al guardar el usuario: " + e.getMessage(), e);

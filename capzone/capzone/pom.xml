@@ -15,11 +15,11 @@
     </properties>
 
     <dependencies>
-        <!-- Driver JDBC de SQL Server -->
+        <!-- Driver JDBC de MariaDB (el que trae XAMPP; también sirve para MySQL) -->
         <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-            <version>12.8.1.jre11</version>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>3.4.1</version>
         </dependency>
     </dependencies>
 </project>
